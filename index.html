@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated Preferences</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f0f0f0;
+    }
+
+    #animatedBtn {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #animatedBtn:hover {
+      background-color: #45a049;
+    }
+
+   
+    .pulse {
+      animation: pulse 0.6s ease;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #themeSelect {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>CSS Animation with Local Storage</h2>
+  <button id="animatedBtn">Click Me!</button>
+
+  <div id="themeSelect">
+    <label for="theme">Select Theme:</label>
+    <select id="theme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </div>
+
+  <script>
+    const btn = document.getElementById('animatedBtn');
+    const themeDropdown = document.getElementById('theme');
+
+    
+    btn.addEventListener('click', () => {
+      btn.classList.add('pulse');
+      setTimeout(() => btn.classList.remove('pulse'), 600); 
+    });
+
+  
+    themeDropdown.addEventListener('change', () => {
+      const selectedTheme = themeDropdown.value;
+      localStorage.setItem('userTheme', selectedTheme);
+      applyTheme(selectedTheme);
+    });
+
+   
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.style.backgroundColor = '#222';
+        document.body.style.color = '#fff';
+      } else {
+        document.body.style.backgroundColor = '#f0f0f0';
+        document.body.style.color = '#000';
+      }
+      themeDropdown.value = theme;
+    }
+
+    
+    window.addEventListener('load', () => {
+      const savedTheme = localStorage.getItem('userTheme') || 'light';
+      applyTheme(savedTheme);
+    });
+  </script>
+</body>
+</html>
